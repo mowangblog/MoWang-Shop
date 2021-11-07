@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: mowang-shop-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848 #Nacos作为配置中心地址
+        file-extension: yml #指定yml格式的配置
+        namespace: gateway
+    gateway:
+      routes:
+        - id: baidu_route
+          uri: http://www.baidu.com
+          predicates:
+            - Query=url,baidu
+
+        - id: test_route
+          uri: http://www.qq.com
+          predicates:
+            - Query=url,qq
+
+server:
+  port: 88

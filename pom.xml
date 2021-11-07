@@ -18,6 +18,7 @@
         <module>admin</module>
         <module>renren-generator</module>
         <module>shop-commons</module>
+        <module>mowang-shop-gateway</module>
     </modules>
 
     <properties>

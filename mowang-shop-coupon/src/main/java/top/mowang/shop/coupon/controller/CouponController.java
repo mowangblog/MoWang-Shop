@@ -6,6 +6,7 @@ import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,9 @@ import top.mowang.shop.common.utils.R;
  * @date 2021-11-07 13:45:01
  */
 @RestController
+@RefreshScope //支持Nacos的动态刷新功能。
 @RequestMapping("coupon/coupon")
+@SuppressWarnings("all")
 public class CouponController {
     @Autowired
     private CouponService couponService;

@@ -1,41 +1,5 @@
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-  datasource:
-    url: jdbc:mysql://192.168.64.128:3306/shop_sms?useUnicode=true&characterEncoding=UTF-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: root
-    username: root
-    druid:
-      aop-patterns: top.mowang.*  #监控SpringBean
-      filters: stat,wall     # 底层开启功能，stat（sql监控），wall（防火墙）
-      stat-view-servlet: # 配置监控页功能
-        enabled: true
-        login-username: admin
-        login-password: admin
-        resetEnable: false
-      web-stat-filter: # 监控web
-        enabled: true
-        urlPattern: /*
-        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-      filter:
-        stat: # 对上面filters里面的stat的详细配置
-          slow-sql-millis: 1000
-          logSlowSql: true
-          enabled: true
-        wall:
-          enabled: true
-          config:
-            drop-table-allow: false
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath:/mapper/**/*.xml
-  global-config:
-    db-config:
-      id-type: auto
+
+
 
 
