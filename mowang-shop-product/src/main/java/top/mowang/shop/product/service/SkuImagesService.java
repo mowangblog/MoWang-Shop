@@ -1,0 +1,20 @@
+package top.mowang.shop.product.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import top.mowang.shop.common.utils.PageUtils;
+import top.mowang.shop.product.entity.SkuImagesEntity;
+
+import java.util.Map;
+
+/**
+ * sku图片
+ *
+ * @author mowang
+ * @email mowangblog@qq.com
+ * @date 2021-11-06 23:40:27
+ */
+public interface SkuImagesService extends IService<SkuImagesEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+
