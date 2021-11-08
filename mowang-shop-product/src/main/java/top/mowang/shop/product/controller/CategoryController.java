@@ -1,6 +1,7 @@
 package top.mowang.shop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,17 @@ import top.mowang.shop.common.utils.R;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    /**
+     * 查出所有分类以及子分类，以树形结构组装起来
+     */
+    @RequestMapping("/list/tree")
+    // @RequiresPermissions("product:category:list")
+    public R listTree(@RequestParam Map<String, Object> params){
+        List<CategoryEntity> entities = categoryService.listWithTree();
+
+        return R.ok().put("data", entities);
+    }
 
     /**
      * 列表
