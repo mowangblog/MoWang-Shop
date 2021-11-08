@@ -15,11 +15,15 @@ spring:
           uri: http://www.baidu.com
           predicates:
             - Query=url,baidu
-
         - id: test_route
           uri: http://www.qq.com
           predicates:
             - Query=url,qq
-
+        - id: admin_route
+          uri: lb://admin # 路由给renren-fast，lb代表负载均衡
+          predicates: # 什么情况下路由给它
+            - Path=/api/** # 默认前端项目都带上api前缀，
+          filters:
+            - RewritePath=/api/(?<segment>.*),/admin/$\{segment}
 server:
   port: 88
