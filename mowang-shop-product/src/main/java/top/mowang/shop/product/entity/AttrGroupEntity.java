@@ -1,5 +1,6 @@
 package top.mowang.shop.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -45,4 +46,9 @@ public class AttrGroupEntity implements Serializable {
 	 */
 	private Long catelogId;
 
+	/**
+	 * 三级分类修改的时候回显路径
+	 */
+	@TableField(exist = false)
+	private Long[] catelogPath;
 }
