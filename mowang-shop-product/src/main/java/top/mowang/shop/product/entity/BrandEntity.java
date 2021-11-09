@@ -7,6 +7,11 @@ import java.io.Serializable;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
+import top.mowang.shop.common.valid.AddGroup;
+import top.mowang.shop.common.valid.ListValue;
+import top.mowang.shop.common.valid.UpdateGroup;
+import top.mowang.shop.common.valid.UpdateStatusGroup;
 
 import javax.validation.constraints.*;
 
@@ -25,16 +30,20 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌id
 	 */
+	@NotNull(message = "修改必须指定品牌id",groups = {UpdateGroup.class})
+	@Null(message = "新增不能指定id",groups = {AddGroup.class})
 	@TableId
 	private Long brandId;
 	/**
 	 * 品牌名
 	 */
-	@NotBlank(message = "品牌不能为空")
+	@NotBlank(message = "品牌名必须提交",groups = {AddGroup.class,UpdateGroup.class})
 	private String name;
 	/**
 	 * 品牌logo地址
 	 */
+	@NotBlank(groups = {AddGroup.class})
+	@URL(message = "logo必须是一个合法的url地址",groups={AddGroup.class,UpdateGroup.class})
 	private String logo;
 	/**
 	 * 介绍
@@ -43,19 +52,20 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 显示状态[0-不显示；1-显示]
 	 */
+//	@Pattern()
+	@NotNull(groups = {AddGroup.class, UpdateStatusGroup.class})
+	@ListValue(vals={0,1},groups = {AddGroup.class, UpdateStatusGroup.class})
 	private Integer showStatus;
 	/**
 	 * 检索首字母
 	 */
-	@NotBlank(message = "不能为空")
-	@Pattern(regexp = "^[a-zA-Z]$",message = "首字母只能是a-z或A-Z的字母")
-	@Length(max = 1)
+	@NotEmpty(groups={AddGroup.class})
+	@Pattern(regexp="^[a-zA-Z]$",message = "检索首字母必须是一个字母",groups={AddGroup.class,UpdateGroup.class})
 	private String firstLetter;
 	/**
 	 * 排序
 	 */
-	@Min(0)
-	@NotNull(message = "序号不能为空")
+	@NotNull(groups={AddGroup.class})
+	@Min(value = 0,message = "排序必须大于等于0",groups={AddGroup.class, UpdateGroup.class})
 	private Integer sort;
-
 }
