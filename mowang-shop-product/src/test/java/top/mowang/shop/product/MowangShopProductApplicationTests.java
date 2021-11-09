@@ -9,6 +9,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.mowang.shop.product.entity.BrandEntity;
 import top.mowang.shop.product.service.BrandService;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -17,6 +20,8 @@ class MowangShopProductApplicationTests {
 
     @Autowired
     BrandService brandService;
+
+
 
     @Test
     void contextLoads() {
@@ -29,5 +34,9 @@ class MowangShopProductApplicationTests {
         List<BrandEntity> list = brandService.list(new QueryWrapper<BrandEntity>().eq("descript", "hello"));
         list.forEach(System.out::println);
     }
+
+
+
+
 
 }
