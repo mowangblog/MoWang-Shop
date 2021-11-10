@@ -4,17 +4,13 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.service.AttrService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
-
+import top.mowang.shop.product.vo.AttrVo;
 
 
 /**
@@ -29,6 +25,16 @@ import top.mowang.shop.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    /**
+     * 列表api/product/attr/base/list/
+     */
+    @GetMapping("/base/list/{cid}")
+    public R listBase(@RequestParam Map<String, Object> params,@PathVariable("cid") Long cid){
+        PageUtils page = attrService.queryBase(params,cid);
+
+        return R.ok().put("page", page);
+    }
 
     /**
      * 列表
@@ -55,8 +61,8 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
 
         return R.ok();
     }

@@ -3,6 +3,7 @@ package top.mowang.shop.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.product.entity.AttrEntity;
+import top.mowang.shop.product.vo.AttrVo;
 
 import java.util.Map;
 
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveAttr(AttrVo attr);
+
+    PageUtils queryBase(Map<String, Object> params, Long cid);
 }
 

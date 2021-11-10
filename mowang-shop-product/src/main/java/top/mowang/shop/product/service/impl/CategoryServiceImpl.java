@@ -10,16 +10,23 @@ import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.Query;
 
 import top.mowang.shop.product.dao.CategoryDao;
 import top.mowang.shop.product.entity.CategoryEntity;
+import top.mowang.shop.product.service.CategoryBrandRelationService;
 import top.mowang.shop.product.service.CategoryService;
+
+import javax.annotation.Resource;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Resource
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -72,6 +79,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         Collections.reverse(paths);
         return paths.toArray(new Long[paths.size()]);
     }
+
+    @Transactional
+    @Override
+    @SuppressWarnings("all")
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+    }
+
     /**
      * 递归收集所有父节点
      */

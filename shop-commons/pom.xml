@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!--hutool工具集-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.6.1</version>
+        </dependency>
         <!--jsr3参数校验器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
