@@ -10,6 +10,7 @@ import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.service.AttrService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
+import top.mowang.shop.product.vo.AttrRespVo;
 import top.mowang.shop.product.vo.AttrVo;
 
 
@@ -27,11 +28,14 @@ public class AttrController {
     private AttrService attrService;
 
     /**
-     * 列表api/product/attr/base/list/
+     * 列表api/product/attr/base/list/基本属性
+     * /api/product/attr/sale/list/销售属性
      */
-    @GetMapping("/base/list/{cid}")
-    public R listBase(@RequestParam Map<String, Object> params,@PathVariable("cid") Long cid){
-        PageUtils page = attrService.queryBase(params,cid);
+    @GetMapping("/{type}/list/{cid}")
+    public R listBase(@RequestParam Map<String, Object> params,
+                      @PathVariable("cid") Long cid,
+                      @PathVariable("type") String type){
+        PageUtils page = attrService.queryBase(params,cid,type);
 
         return R.ok().put("page", page);
     }
@@ -52,7 +56,7 @@ public class AttrController {
      */
     @RequestMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+		AttrRespVo attr = attrService.getAttrInfo(attrId);
 
         return R.ok().put("attr", attr);
     }
@@ -71,8 +75,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr){
+		attrService.updateDetail(attr);;
 
         return R.ok();
     }

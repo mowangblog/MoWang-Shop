@@ -1,20 +1,22 @@
 package top.mowang.shop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import top.mowang.shop.product.entity.AttrAttrgroupRelationEntity;
+import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.entity.AttrGroupEntity;
+import top.mowang.shop.product.service.AttrAttrgroupRelationService;
 import top.mowang.shop.product.service.AttrGroupService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
 import top.mowang.shop.product.service.CategoryService;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -26,12 +28,44 @@ import top.mowang.shop.product.service.CategoryService;
  */
 @RestController
 @RequestMapping("product/attrgroup")
+@SuppressWarnings("all")
 public class AttrGroupController {
+    @Resource
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
     @Autowired
     private AttrGroupService attrGroupService;
     @Autowired
     private CategoryService categoryService;
+    //product/attrgroup/attr/relation
+    @PostMapping("/attr/relation")
+    public R batchAdd(@RequestBody List<AttrAttrgroupRelationEntity> relationEntities){
+        boolean b = attrAttrgroupRelationService.saveBatch(relationEntities);
 
+        return R.ok().put("status",b);
+    }
+    //product/attrgroup/1/noattr/relation 查出还没有和任何属性关联的属性列表
+    @GetMapping("{groupId}/noattr/relation")
+    public R relationNoattrlist(@RequestParam Map<String, Object> params,@PathVariable("groupId") Long groupId){
+        PageUtils page = attrGroupService.relationNoattrlist(params,groupId);
+
+        return R.ok().put("page", page);
+    }
+
+    //api/product/attrgroup/attr/relation/delete
+    @PostMapping("/attr/relation/delete")
+    public R delete(@RequestBody AttrAttrgroupRelationEntity[] relationEntities){
+        attrGroupService.removeRelationByIds(Arrays.asList(relationEntities));
+
+        return R.ok();
+    }
+
+    //api/product/attrgroup/1/attr/relation
+    @GetMapping("{groupId}/attr/relation")
+    public R list(@PathVariable("groupId") Long groupId){
+        List<AttrEntity> list = attrGroupService.attrGroupRelationList(groupId);
+
+        return R.ok().put("data", list);
+    }
     /**
      * 列表
      */

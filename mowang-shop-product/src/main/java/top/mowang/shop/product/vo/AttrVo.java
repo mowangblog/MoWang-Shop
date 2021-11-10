@@ -28,6 +28,10 @@ public class AttrVo  {
 	 */
 	private Integer searchType;
 	/**
+	 * 值类型0为单个值1为可以多个值
+	 */
+	private Integer valueType;
+	/**
 	 * 属性图标
 	 */
 	private String icon;
