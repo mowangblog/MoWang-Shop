@@ -5,6 +5,7 @@ import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.product.entity.AttrAttrgroupRelationEntity;
 import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.entity.AttrGroupEntity;
+import top.mowang.shop.product.vo.AttrGroupRespVo;
 
 import java.util.List;
 import java.util.Map;
@@ -27,5 +28,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     void removeRelationByIds(List<AttrAttrgroupRelationEntity> asList);
 
     PageUtils relationNoattrlist(Map<String, Object> params, Long groupId);
+
+    List<AttrGroupRespVo> getAttrAttrgroupWithAttr(Long catId);
 }
 

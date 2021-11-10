@@ -3,16 +3,18 @@ package top.mowang.shop.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import top.mowang.shop.product.entity.BrandEntity;
 import top.mowang.shop.product.entity.CategoryBrandRelationEntity;
 import top.mowang.shop.product.service.CategoryBrandRelationService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
-
+import top.mowang.shop.product.vo.BrandsVo;
 
 
 /**
@@ -27,6 +29,20 @@ import top.mowang.shop.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    //api/product/categorybrandrelation/brands/list?t=1636532964172&catId=165
+    @GetMapping("/brands/list")
+    public R getBrandsByCatId(@RequestParam("catId")Long catId){
+        List<BrandEntity> brands = categoryBrandRelationService.findBrandsByCatId(catId);
+
+        List<BrandsVo> brandsVoList = brands.stream().map(brandEntity -> {
+            BrandsVo brandsVo = new BrandsVo();
+            brandsVo.setBrandId(brandEntity.getBrandId());
+            brandsVo.setBrandName(brandEntity.getName());
+            return brandsVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data", brandsVoList);
+    }
 
     /**
      * 列表

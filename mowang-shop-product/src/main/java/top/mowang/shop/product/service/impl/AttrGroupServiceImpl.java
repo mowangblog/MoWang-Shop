@@ -1,8 +1,10 @@
 package top.mowang.shop.product.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.util.StringUtils;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,8 @@ import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.entity.AttrGroupEntity;
 import top.mowang.shop.product.service.AttrGroupService;
 import top.mowang.shop.product.service.AttrService;
+import top.mowang.shop.product.vo.AttrGroupRespVo;
+import top.mowang.shop.product.vo.AttrRespVo;
 
 import javax.annotation.Resource;
 
@@ -75,6 +79,11 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         }
     }
 
+    /**
+     * @description: 根据分组id查询出当前分组下的所有attr
+     * @author: Xuan Li<mowangblog@qq.com>
+     * @date: 2021/11/10 17:37
+    */
     @Override
     public List<AttrEntity> attrGroupRelationList(Long groupId) {
         List<AttrAttrgroupRelationEntity> attrGroupList = relationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", groupId));
@@ -122,6 +131,29 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
                 new Query<AttrEntity>().getPage(params),
                 queryWrapper
         ));
+    }
+
+    /**
+     * @description: 根据catId查询所有分组以及分组的属性
+     * @author: Xuan Li<mowangblog@qq.com>
+     * @date: 2021/11/10 17:21
+    */
+    @Override
+    public List<AttrGroupRespVo> getAttrAttrgroupWithAttr(Long catId) {
+        //根据catId查询当前分类下的所有分组
+        List<AttrGroupEntity> groupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catId));
+        List<AttrGroupRespVo> respVoList = groupEntities.stream().map(attrGroupEntity -> {
+            AttrGroupRespVo attrRespVo = new AttrGroupRespVo();
+            BeanUtil.copyProperties(attrGroupEntity, attrRespVo);
+            return attrRespVo;
+        }).peek(attrGroupRespVo -> {
+            Long attrGroupId = attrGroupRespVo.getAttrGroupId();
+            //根据分组id查询出当前分组下的所有attr
+            List<AttrEntity> attrEntityList = this.attrGroupRelationList(attrGroupId);
+            attrGroupRespVo.setAttrs(attrEntityList);
+        }).collect(Collectors.toList());
+
+        return respVoList;
     }
 
 }

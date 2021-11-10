@@ -3,6 +3,7 @@ package top.mowang.shop.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import top.mowang.shop.product.entity.SpuInfoEntity;
 import top.mowang.shop.product.service.SpuInfoService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
-
+import top.mowang.shop.product.vo.SpuSaveVo;
 
 
 /**
@@ -55,8 +56,8 @@ public class SpuInfoController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    public R save(@RequestBody SpuSaveVo spuSaveVo){
+        System.out.println(spuSaveVo);
 
         return R.ok();
     }

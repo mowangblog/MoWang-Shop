@@ -2,7 +2,11 @@ package top.mowang.shop.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,6 +20,7 @@ import top.mowang.shop.product.dao.CategoryDao;
 import top.mowang.shop.product.entity.BrandEntity;
 import top.mowang.shop.product.entity.CategoryBrandRelationEntity;
 import top.mowang.shop.product.entity.CategoryEntity;
+import top.mowang.shop.product.service.BrandService;
 import top.mowang.shop.product.service.CategoryBrandRelationService;
 
 import javax.annotation.Resource;
@@ -66,6 +71,16 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCategory(Long catId, String name) {
         this.baseMapper.updateCategory(catId,name);
+    }
+
+    @Override
+    public List<BrandEntity> findBrandsByCatId(Long catId) {
+        //查询出所有当前分类的品牌id
+        List<CategoryBrandRelationEntity> relationList = this.list(new QueryWrapper<CategoryBrandRelationEntity>()
+                .eq("catelog_id", catId));
+        List<Long> brandIdList = relationList.stream().map(CategoryBrandRelationEntity::getBrandId).collect(Collectors.toList());
+        //根据品牌id查出我们需要的品牌
+        return brandDao.selectBatchIds(brandIdList);
     }
 
 

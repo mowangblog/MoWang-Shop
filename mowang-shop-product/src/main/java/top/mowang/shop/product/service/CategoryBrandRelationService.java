@@ -2,8 +2,10 @@ package top.mowang.shop.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.mowang.shop.common.utils.PageUtils;
+import top.mowang.shop.product.entity.BrandEntity;
 import top.mowang.shop.product.entity.CategoryBrandRelationEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,5 +25,7 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
     void updateBrand(Long brandId, String name);
 
     void updateCategory(Long catId, String name);
+
+    List<BrandEntity> findBrandsByCatId(Long catId);
 }
 
