@@ -1,15 +1,18 @@
 package top.mowang.shop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import top.mowang.shop.product.entity.AttrEntity;
+import top.mowang.shop.product.entity.ProductAttrValueEntity;
 import top.mowang.shop.product.service.AttrService;
 import top.mowang.shop.common.utils.PageUtils;
 import top.mowang.shop.common.utils.R;
+import top.mowang.shop.product.service.ProductAttrValueService;
 import top.mowang.shop.product.vo.AttrRespVo;
 import top.mowang.shop.product.vo.AttrVo;
 
@@ -26,6 +29,18 @@ import top.mowang.shop.product.vo.AttrVo;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    ProductAttrValueService productAttrValueService;
+
+    // /product/attr/base/listforspu/{spuId}
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrlistforspu(@PathVariable("spuId") Long spuId){
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrlistforspu(spuId);
+
+        return R.ok().put("data",entities);
+    }
 
     /**
      * 列表api/product/attr/base/list/基本属性
@@ -77,6 +92,16 @@ public class AttrController {
     @RequestMapping("/update")
     public R update(@RequestBody AttrVo attr){
 		attrService.updateDetail(attr);;
+
+        return R.ok();
+    }
+
+    ///product/attr/update/{spuId}
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
+
+        productAttrValueService.updateSpuAttr(spuId,entities);
 
         return R.ok();
     }
