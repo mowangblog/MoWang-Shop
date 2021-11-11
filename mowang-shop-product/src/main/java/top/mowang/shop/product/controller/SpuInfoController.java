@@ -35,8 +35,9 @@ public class SpuInfoController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }
@@ -57,7 +58,7 @@ public class SpuInfoController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody SpuSaveVo spuSaveVo){
-        System.out.println(spuSaveVo);
+        spuInfoService.saveSpuInfo(spuSaveVo);
 
         return R.ok();
     }
@@ -68,6 +69,7 @@ public class SpuInfoController {
     @RequestMapping("/update")
     public R update(@RequestBody SpuInfoEntity spuInfo){
 		spuInfoService.updateById(spuInfo);
+
 
         return R.ok();
     }

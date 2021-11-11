@@ -1,5 +1,6 @@
 package top.mowang.shop.ware.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,9 +19,25 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        /**
+         * skuId: 1
+         * wareId: 2
+         */
+        QueryWrapper<WareSkuEntity> queryWrapper = new QueryWrapper<>();
+        String skuId = (String) params.get("skuId");
+        if(!StrUtil.isEmpty(skuId)){
+            queryWrapper.eq("sku_id",skuId);
+        }
+
+        String wareId = (String) params.get("wareId");
+        if(!StrUtil.isEmpty(wareId)){
+            queryWrapper.eq("ware_id",wareId);
+        }
+
+
         IPage<WareSkuEntity> page = this.page(
                 new Query<WareSkuEntity>().getPage(params),
-                new QueryWrapper<WareSkuEntity>()
+                queryWrapper
         );
 
         return new PageUtils(page);
