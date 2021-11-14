@@ -13,7 +13,6 @@
         <module>mowang-shop-coupon</module>
         <module>mowang-shop-member</module>
         <module>mowang-shop-order</module>
-        <module>mowang-shop-search</module>
         <module>mowang-shop-product</module>
         <module>mowang-shop-ware</module>
         <module>admin</module>
@@ -47,6 +46,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.elasticsearch</groupId>
+                        <artifactId>elasticsearch</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>

@@ -12,11 +12,10 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author : Xuan Li<mowangblog@qq.com>
  * @website : https://mowangblog.top
- * @date : 2021/11/14 18:53
+ * @date : 2021/11/14 20:14
  **/
 @Configuration
-public class ShopESConfig {
-
+public class ElasticSearchConfig {
     public static final RequestOptions COMMON_OPTIONS;
 
     static {
@@ -31,5 +30,4 @@ public class ShopESConfig {
                 RestClient.builder(new HttpHost("192.168.64.128", 9200, "http")));
         return  client;
     }
-
 }
