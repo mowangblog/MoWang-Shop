@@ -13,6 +13,7 @@
         <module>mowang-shop-coupon</module>
         <module>mowang-shop-member</module>
         <module>mowang-shop-order</module>
+        <module>mowang-shop-search</module>
         <module>mowang-shop-product</module>
         <module>mowang-shop-ware</module>
         <module>admin</module>
