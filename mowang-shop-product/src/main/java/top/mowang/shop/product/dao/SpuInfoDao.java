@@ -1,5 +1,6 @@
 package top.mowang.shop.product.dao;
 
+import org.apache.ibatis.annotations.Param;
 import top.mowang.shop.product.entity.SpuInfoEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SpuInfoDao extends BaseMapper<SpuInfoEntity> {
 
-    void updaSpuStatus(Long spuId, int code);
+    void updaSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
 }
