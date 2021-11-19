@@ -18,7 +18,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
+import top.mowang.shop.common.constant.ProductConstant;
 import top.mowang.shop.common.es.SkuEsModel;
+import top.mowang.shop.common.to.SkuHasStockVo;
 import top.mowang.shop.common.to.SkuReductionTo;
 import top.mowang.shop.common.to.SpuBoundTo;
 import top.mowang.shop.common.utils.PageUtils;
@@ -28,6 +30,8 @@ import top.mowang.shop.common.utils.R;
 import top.mowang.shop.product.dao.SpuInfoDao;
 import top.mowang.shop.product.entity.*;
 import top.mowang.shop.product.feign.CouponFeignService;
+import top.mowang.shop.product.feign.SearchFeignService;
+import top.mowang.shop.product.feign.WareFeignService;
 import top.mowang.shop.product.service.*;
 import top.mowang.shop.product.vo.*;
 
@@ -65,6 +69,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Resource
     CouponFeignService couponFeignService;
+
+    @Resource
+    WareFeignService wareFeignService;
+
+    @Resource
+    SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -253,10 +263,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         //TODO 1、发送远程调用，库存系统查询是否有库存
         Map<Long, Boolean> stockMap = null;
         try {
-            R skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
-            //
-            TypeReference<List<SkuHasStockVo>> typeReference = new TypeReference<List<SkuHasStockVo>>() {};
-            stockMap = skuHasStock.getData(typeReference).stream()
+            R<List<SkuHasStockVo>> skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
+
+            stockMap = skuHasStock.getData().stream()
                     .collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
         } catch (Exception e) {
             log.error("库存服务查询异常：原因{}",e);

@@ -1,19 +1,25 @@
 package top.mowang.shop.common.constant;
 
-@SuppressWarnings("all")
+/**
+ *
+ * @author : Xuan Li<mowangblog@qq.com>
+ * @website : https://mowangblog.top
+ * @date : 2021/11/19 23:10
+ **/
 public class WareConstant {
 
-    public enum  PurchaseStatusEnum{
-        CREATED(0,"新建"),ASSIGNED(1,"已分配"),
-        RECEIVE(2,"已领取"),FINISH(3,"已完成"),
-        HASERROR(4,"有异常");
-        private int code;
-        private String msg;
+    public enum PurchaseStatusEnum {
+        CREATED(0,"新建"),
+        ASSIGNED(1,"已分配"),
+        RECEIVE(2,"已领取"),
+        FINISH(3,"已完成"),
+        HASERROR(4,"有异常"),
 
-        PurchaseStatusEnum(int code,String msg){
-            this.code = code;
-            this.msg = msg;
-        }
+        ;
+
+        private int code;
+
+        private String msg;
 
         public int getCode() {
             return code;
@@ -22,20 +28,27 @@ public class WareConstant {
         public String getMsg() {
             return msg;
         }
-    }
 
-
-    public enum  PurchaseDetailStatusEnum{
-        CREATED(0,"新建"),ASSIGNED(1,"已分配"),
-        BUYING(2,"正在采购"),FINISH(3,"已完成"),
-        HASERROR(4,"采购失败");
-        private int code;
-        private String msg;
-
-        PurchaseDetailStatusEnum(int code,String msg){
+        PurchaseStatusEnum(int code, String msg) {
             this.code = code;
             this.msg = msg;
         }
+
+    }
+
+
+    public enum PurchaseDetailStatusEnum {
+        CREATED(0,"新建"),
+        ASSIGNED(1,"已分配"),
+        BUYING(2,"正在采购"),
+        FINISH(3,"已完成"),
+        HASERROR(4,"采购失败"),
+
+        ;
+
+        private int code;
+
+        private String msg;
 
         public int getCode() {
             return code;
@@ -44,5 +57,13 @@ public class WareConstant {
         public String getMsg() {
             return msg;
         }
+
+        PurchaseDetailStatusEnum(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
     }
+
+
 }
