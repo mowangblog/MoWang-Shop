@@ -6,6 +6,7 @@ import top.mowang.shop.product.entity.AttrEntity;
 import top.mowang.shop.product.vo.AttrRespVo;
 import top.mowang.shop.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrRespVo getAttrInfo(Long attrId);
 
     void updateDetail(AttrVo attr);
+
+    List<Long> selectSearchAttrs(List<Long> attrIds);
 }
 
